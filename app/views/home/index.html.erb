@@ -1,11 +1,10 @@
 <%= content_tag :div, class: 'container d-flex align-items-center justify-content-center vh-100' do %>
-  <%= form_tag('/home/index', method: 'post', class: 'text-center') do %>
+  <%= form_with(url: '/home/authenticate', method: 'post', class: 'text-center') do %>
     <%= label_tag 'E-mail' %>
     <%= email_field_tag 'email', nil, class: 'form-control mb-3', required: true, id: 'emailField' %>
 
     <%= label_tag 'Password' %>
     <%= password_field_tag 'password', nil, class: 'form-control mb-3', required: true %>
-
 
     <div class="d-flex justify-content-center gap-3">
       <%= button_tag 'Sign-in', type: 'submit', class: 'btn btn-primary', id: 'submitButton', disabled: true %>
