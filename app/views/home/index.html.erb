@@ -1,1 +1,29 @@
-<h1>Página Inicial</h1>
+<%= content_tag :div, class: 'container d-flex align-items-center justify-content-center vh-100' do %>
+  <%= form_tag('/home/index', method: 'post', class: 'text-center') do %>
+    <%= label_tag 'E-mail' %>
+    <%= email_field_tag 'email', nil, class: 'form-control mb-3', required: true, id: 'emailField' %>
+
+    <%= label_tag 'Senha' %>
+    <%= password_field_tag 'senha', nil, class: 'form-control mb-3', required: true %>
+
+
+    <div class="d-flex justify-content-center gap-3">
+      <%= button_tag 'Login', type: 'submit', class: 'btn btn-primary', id: 'submitButton', disabled: true %>
+      <%= link_to 'Sign-in', { controller: 'register', action: 'new' }, class: 'btn btn-secondary' %>
+    </div>
+  <% end %>
+<% end %>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var emailField = document.getElementById('emailField');
+    var submitButton = document.getElementById('submitButton');
+
+    emailField.addEventListener('input', function () {
+      var email = emailField.value;
+      var isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+      submitButton.disabled = !isEmailValid;
+    });
+  });
+</script>
