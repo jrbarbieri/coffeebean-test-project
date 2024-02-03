@@ -9,4 +9,6 @@ Rails.application.routes.draw do
   root "home#index"
 
   get '/signup', to: "register#new"
+
+  resources :registers, only: [:new, :create]
 end
