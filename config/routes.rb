@@ -8,7 +8,11 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "home#index"
 
+  post '/home/authenticate', to: "home#authenticate"
   get '/signup', to: "register#new"
+  get '/signin', to: "signin#index"
 
   resources :registers, only: [:new, :create]
+
+
 end
