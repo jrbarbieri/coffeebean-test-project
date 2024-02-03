@@ -1,8 +1,8 @@
 class HomeController < ApplicationController
   def index
     return render :index if USERS.logged_user.empty?
-
-    redirect_to signin_path, params: { name: auth }
+    
+    redirect_to signin_path, params: auth
   end
 
   def authenticate
@@ -11,7 +11,7 @@ class HomeController < ApplicationController
       render :index, status: :unprocessable_entity
     else
       USERS.set_logged_user(user_params[:email])
-      redirect_to signin_path, params: { name: auth, email: user_params[:email] }
+      redirect_to signin_path(auth)
     end
   end
 
