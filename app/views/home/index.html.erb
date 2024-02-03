@@ -3,13 +3,13 @@
     <%= label_tag 'E-mail' %>
     <%= email_field_tag 'email', nil, class: 'form-control mb-3', required: true, id: 'emailField' %>
 
-    <%= label_tag 'Senha' %>
-    <%= password_field_tag 'senha', nil, class: 'form-control mb-3', required: true %>
+    <%= label_tag 'Password' %>
+    <%= password_field_tag 'password', nil, class: 'form-control mb-3', required: true %>
 
 
     <div class="d-flex justify-content-center gap-3">
-      <%= button_tag 'Login', type: 'submit', class: 'btn btn-primary', id: 'submitButton', disabled: true %>
-      <%= link_to 'Sign-in', { controller: 'register', action: 'new' }, class: 'btn btn-secondary' %>
+      <%= button_tag 'Sign-in', type: 'submit', class: 'btn btn-primary', id: 'submitButton', disabled: true %>
+      <%= link_to 'Sign-up', { controller: 'registers', action: 'new' }, class: 'btn btn-secondary' %>
     </div>
   <% end %>
 <% end %>
