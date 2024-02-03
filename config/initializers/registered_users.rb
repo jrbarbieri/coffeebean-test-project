@@ -18,7 +18,7 @@ class RegisteredUsers
 
   def authenticate(email, given_password)
     if already_exist?(email) && @@users[:"#{email}"][:password] == given_password
-      @@users[:"#{email}"][:name]
+      { email: email, name: @@users[:"#{email}"][:name] }
     end
   end
 
@@ -28,6 +28,10 @@ class RegisteredUsers
 
   def logged_user
     @@logged_user
+  end
+
+  def loggout_user
+    @@logged_user = ""
   end
 end
 

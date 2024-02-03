@@ -1,1 +1,16 @@
-<h1>Loguei!</h1>
+<div class="container mt-5">
+  <table class="table table-striped">
+    <tbody>
+      <% @data.each_with_index do |(key, value), index| %>
+        <tr class="<%= index.even? ? 'table-light' : 'table-white' %>">
+          <td><%= key %></td>
+          <td><%= value %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="text-center">
+    <%= link_to "Logout", logout_path, class: "btn btn-primary" %>
+  </div>
+</div>

@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   post '/home/authenticate', to: "home#authenticate"
   get '/signup', to: "register#new"
   get '/signin', to: "signin#index"
+  get '/logout', to: "signin#logout"
 
   resources :registers, only: [:new, :create]
 
