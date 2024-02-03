@@ -7,22 +7,9 @@
     <%= password_field_tag 'password', nil, class: 'form-control mb-3', required: true %>
 
     <div class="d-flex justify-content-center gap-3">
-      <%= button_tag 'Sign-in', type: 'submit', class: 'btn btn-primary', id: 'submitButton', disabled: true %>
+      <%= button_tag 'Sign-in', type: 'submit', class: 'btn btn-primary', id: 'submitButton' %>
       <%= link_to 'Sign-up', { controller: 'registers', action: 'new' }, class: 'btn btn-secondary' %>
     </div>
   <% end %>
 <% end %>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    var emailField = document.getElementById('emailField');
-    var submitButton = document.getElementById('submitButton');
-
-    emailField.addEventListener('input', function () {
-      var email = emailField.value;
-      var isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-      submitButton.disabled = !isEmailValid;
-    });
-  });
-</script>
