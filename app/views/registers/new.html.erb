@@ -1,0 +1,33 @@
+<h1>Cadastro de Usuário</h1>
+
+<%= form_with(model: @user, url: registers_path, local: true) do |form| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "erro") %> impediram o cadastro:</h2>
+      <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.email_field :email %>
+  </div>
+
+  <div class="field">
+    <%= form.label :password %>
+    <%= form.password_field :password %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Cadastrar' %>
+  </div>
+<% end %>
