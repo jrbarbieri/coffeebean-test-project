@@ -2,7 +2,7 @@ class HomeController < ApplicationController
   def index
     return render :index if USERS.logged_user.empty?
     
-    redirect_to signin_path, params: auth
+    redirect_to signin_path(auth)
   end
 
   def authenticate
@@ -22,6 +22,10 @@ class HomeController < ApplicationController
   end
 
   def auth
-    USERS.authenticate(user_params[:email], user_params[:password])
+    if USERS.logged_user.empty?
+      USERS.authenticate(user_params[:email], user_params[:password])
+    else
+      USERS.get_user_data(USERS.logged_user)
+    end
   end
 end

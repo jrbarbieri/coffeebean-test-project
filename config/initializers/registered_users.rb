@@ -33,6 +33,10 @@ class RegisteredUsers
   def loggout_user
     @@logged_user = ""
   end
+
+  def get_user_data(email)
+    { email: email, name: @@users[:"#{email}"][:name] }
+  end
 end
 
 USERS = RegisteredUsers.new
