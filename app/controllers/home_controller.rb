@@ -1,8 +1,8 @@
 class HomeController < ApplicationController
   def index
-    return render :index if USERS.logged_user.empty?
+    return render :index unless current_user
     
-    redirect_to signin_path(auth)
+    redirect_to signin_path
   end
 
   def authenticate
@@ -10,8 +10,8 @@ class HomeController < ApplicationController
       flash.now[:alert] = "Email or password are incorrect."
       render :index, status: :unprocessable_entity
     else
-      USERS.set_logged_user(user_params[:email])
-      redirect_to signin_path(auth)
+      session[:user_email] = user_params[:email]
+      redirect_to signin_path
     end
   end
 
@@ -22,10 +22,6 @@ class HomeController < ApplicationController
   end
 
   def auth
-    if USERS.logged_user.empty?
-      USERS.authenticate(user_params[:email], user_params[:password])
-    else
-      USERS.get_user_data(USERS.logged_user)
-    end
+    USERS.authenticate(user_params[:email], user_params[:password])
   end
 end

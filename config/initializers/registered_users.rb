@@ -1,41 +1,26 @@
 class RegisteredUsers
   @@users = Rails.application.config.registered_users
-  @@logged_user = ""
 
   def add(name, email, password)
     @@users.merge!(email.to_sym => { name: name, password: password })
   end
 
-  def all
-    @@users
-  end
-
   def already_exist?(email)
-    return true unless @@users[:"#{email}"].nil?
-
-    false
+    @@users.fetch(email.to_sym, nil).present?
   end
 
   def authenticate(email, given_password)
-    if already_exist?(email) && @@users[:"#{email}"][:password] == given_password
-      { email: email, name: @@users[:"#{email}"][:name] }
-    end
-  end
-
-  def set_logged_user(email)
-    @@logged_user = email
-  end
-
-  def logged_user
-    @@logged_user
-  end
-
-  def loggout_user
-    @@logged_user = ""
+    get_user_data(email) if validate_auth(email, given_password)
   end
 
   def get_user_data(email)
-    { email: email, name: @@users[:"#{email}"][:name] }
+    { email: email, name: @@users[email.to_sym][:name] } if already_exist?(email)
+  end
+
+  private
+
+  def validate_auth(email, given_password)
+    already_exist?(email) && @@users[email.to_sym][:password] == given_password
   end
 end
 
