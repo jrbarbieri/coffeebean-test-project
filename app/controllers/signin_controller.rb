@@ -1,36 +1,22 @@
 class SigninController < ApplicationController
-  before_action :authenticated?
-
   def index
-    user_ip_data = IpDataService.call(request.remote_ip)
+    return render :index unless current_user
 
-    @data = if user_ip_data.dig("bogon")
-              fake_data
-            else
-              {
-                name: current_user.name,
-                email: current_user.email,
-                city: user_ip_data.dig("city"),
-                region: user_ip_data.dig("region"),
-                country: user_ip_data.dig("country")
-              }
-            end
+    redirect_to loggedin_path
   end
 
-  def logout
-    reset_session
-    redirect_to root_path, notice: 'User successfully loggout.'
+  def authenticate
+    if authenticate_user(user_params)
+      redirect_to loggedin_path
+    else
+      flash.now[:alert] = "Email or password are incorrect."
+      render :index, status: :unprocessable_entity
+    end
   end
 
   private
 
-  def fake_data
-    {
-      name: current_user.name,
-      email: current_user.email,
-      city: "Salvador",
-      region: "Northeast",
-      country: "Brazil"
-    }
+  def user_params
+    params.require(:user).permit(:email, :password)
   end
 end

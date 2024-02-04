@@ -1,16 +1,14 @@
-<div class="container mt-5">
-  <table class="table table-striped">
-    <tbody>
-      <% @data.each_with_index do |(key, value), index| %>
-        <tr class="<%= index.even? ? 'table-light' : 'table-white' %>">
-          <td><%= key %></td>
-          <td><%= value %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+<%= content_tag :div, class: 'container d-flex align-items-center justify-content-center vh-100' do %>
+  <%= form_with(model: User.new, url: '/signin/authenticate', method: 'post', local: true, class: 'text-center') do |form| %>
+    <%= form.label :email, 'E-mail' %>
+    <%= form.email_field :email, class: 'form-control mb-3', required: true, id: 'emailField' %>
 
-  <div class="text-center">
-    <%= link_to "Logout", logout_path, class: "btn btn-primary" %>
-  </div>
-</div>
+    <%= form.label :password, 'Password' %>
+    <%= form.password_field :password, class: 'form-control mb-3', required: true %>
+
+    <div class="d-flex justify-content-center gap-3">
+      <%= form.submit 'Sign-in', class: 'btn btn-primary', id: 'submitButton' %>
+      <%= link_to 'Sign-up', { controller: 'registers', action: 'new' }, class: 'btn btn-secondary' %>
+    </div>
+  <% end %>
+<% end %>
