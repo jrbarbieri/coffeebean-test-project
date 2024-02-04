@@ -56,6 +56,7 @@ group :development, :test do
   gem "rubocop-rspec", require: false
   gem "rubocop-performance", require: false
   gem "pry-byebug"
+  gem "redis"
 end
 
 group :development do
