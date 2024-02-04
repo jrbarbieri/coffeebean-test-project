@@ -18,7 +18,7 @@ class HomeController < ApplicationController
   private
 
   def user_params
-    params.permit(:email, :password)
+    params.require(:user).permit(:email, :password)
   end
 
   def auth
