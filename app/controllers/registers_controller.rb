@@ -6,14 +6,8 @@ class RegistersController < ApplicationController
   def create
     @user = User.new(user_params)
 
-    if @user.valid?
-      if USERS.already_exist?(user_params[:email])
-        @user.errors.add(:email, 'already been registered. Try another one!')
-        render :new, status: :unprocessable_entity
-      else
-        USERS.add(@user)
-        redirect_to root_path, notice: 'User successfully created. Sign-in now!'
-      end
+    if @user.save
+      redirect_to root_path, notice: 'User successfully created. Sign-in now!'
     else
       render :new, status: :unprocessable_entity
     end

@@ -1,12 +1,24 @@
 class ApplicationController < ActionController::Base
-  def current_user
-    return if session[:user_email].blank?
+  def set_current_user(user)
+    session[:user_email] = user.email
+  end
 
-    if USERS.get_user_data(session[:user_email])
-      USERS.get_user_data(session[:user_email])
+  def current_user
+    @current_user ||= User.find_by(session[:user_email])
+  end
+
+  def authenticate_user(user_params)
+    user = User.find_by(user_params[:email]).try(:authenticate, user_params[:password])
+
+    if user
+      reset_session
+      set_current_user(user)
     else
       reset_session
-      nil
     end
+  end
+
+  def authenticated?
+    redirect_to root_path unless current_user
   end
 end
