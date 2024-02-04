@@ -8,9 +8,9 @@ class SigninController < ApplicationController
       {
         name: params[:name],
         email: params[:email],
-        city: user_ip_data.dig["city"],
-        region: user_ip_data.dig["region"],
-        country: user_ip_data.dig["country"]
+        city: user_ip_data.dig("city"),
+        region: user_ip_data.dig("region"),
+        country: user_ip_data.dig("country")
       }
     end
 
