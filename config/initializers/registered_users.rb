@@ -1,8 +1,8 @@
 class RegisteredUsers
   @@users = Rails.application.config.registered_users
 
-  def add(name, email, password)
-    @@users.merge!(email.to_sym => { name: name, password: password })
+  def add(user)
+    @@users.merge!(user)
   end
 
   def already_exist?(email)

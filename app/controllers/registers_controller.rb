@@ -11,7 +11,7 @@ class RegistersController < ApplicationController
         @user.errors.add(:email, 'already been registered. Try another one!')
         render :new, status: :unprocessable_entity
       else
-        USERS.add(user_params[:name], user_params[:email], user_params[:password])
+        USERS.add(@user)
         redirect_to root_path, notice: 'User successfully created. Sign-in now!'
       end
     else

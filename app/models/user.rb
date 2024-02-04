@@ -11,6 +11,10 @@ class User
   validate :password_complexity
   validate :email_complexity
 
+  def to_hash
+    { email.to_sym => { name:, password: } }
+  end
+
   private
 
   def password_complexity
