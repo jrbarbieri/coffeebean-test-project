@@ -19,7 +19,7 @@ class User
   def self.find_by(email)
     return if email.nil?
 
-    data = Redis.new.hgetall(email)
+    data = $redis.hgetall(email)
     return if data.empty?
 
     new(data)
@@ -31,7 +31,7 @@ class User
 
   def save
     if valid?
-      Redis.new.hset(email, "email", email, "name", name, "password", encrypt_password)
+      $redis.hset(email, "email", email, "name", name, "password", encrypt_password)
       true
     else
       false
