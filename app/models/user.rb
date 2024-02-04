@@ -1,6 +1,4 @@
 class User
-  @@users = Rails.application.config.registered_users
-
   include ActiveModel::Model
   MAX_EMAIL_LOCAL_PART_CHARS = 64
   MAX_EMAIL_DOMAIN_CHARS = 128
@@ -20,10 +18,11 @@ class User
 
   def self.find_by(email)
     return if email.nil?
-    data = all.fetch(email.to_sym, nil)
-    return if data.nil?
 
-    new(email: email, name: data[:name], password: data[:password])
+    data = Redis.new.hgetall(email)
+    return if data.empty?
+
+    new(data)
   end
 
   def authenticate(given_password)
@@ -32,15 +31,11 @@ class User
 
   def save
     if valid?
-      self.class.all.merge!(self)
+      Redis.new.hset(email, "email", email, "name", name, "password", encrypt_password)
       true
     else
       false
     end
-  end
-
-  def self.all
-    @@users
   end
 
   private
