@@ -1,4 +1,6 @@
 class User
+  @@users = Rails.application.config.registered_users
+
   include ActiveModel::Model
   MAX_EMAIL_LOCAL_PART_CHARS = 64
   MAX_EMAIL_DOMAIN_CHARS = 128
@@ -10,12 +12,46 @@ class User
   validates :password, presence: true, length: { minimum: 10, maximum: 72, message: 'must have at least 10 characters.' }
   validate :password_complexity
   validate :email_complexity
+  validate :email_uniqueness
 
   def to_hash
-    { email.to_sym => { name:, password: } }
+    { email.to_sym => { name:, password: encrypt_password } }
+  end
+
+  def self.find_by(email)
+    return if email.nil?
+    data = all.fetch(email.to_sym, nil)
+    return if data.nil?
+
+    new(email: email, name: data[:name], password: data[:password])
+  end
+
+  def authenticate(given_password)
+    BCrypt::Password.new(password).is_password?(given_password) && self
+  end
+
+  def save
+    if valid?
+      self.class.all.merge!(self)
+      true
+    else
+      false
+    end
+  end
+
+  def self.all
+    @@users
   end
 
   private
+
+  def encrypt_password
+    BCrypt::Password.create(password)
+  end
+
+  def email_uniqueness
+    errors.add(:email, 'already been registered. Try another one!') if self.class.find_by(email)
+  end
 
   def password_complexity
     return unless password.present?
