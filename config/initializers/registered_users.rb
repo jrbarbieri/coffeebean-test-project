@@ -1,5 +1,5 @@
 class RegisteredUsers
-  @@users = {}
+  @@users = Rails.application.config.registered_users
   @@logged_user = ""
 
   def add(name, email, password)
